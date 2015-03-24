@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Workspace [
+
+<!-- Common Elements -->
+<!ELEMENT Identifier (#PCDATA)>
+<!ELEMENT Comments (#PCDATA)>
+<!ELEMENT MasterDirectory (#PCDATA)>
+<!ELEMENT CreationDate (#PCDATA)>
+
+<!-- Workspace Elements-->
+<!ELEMENT Workspace ( Identifier,
+               CreateVersion,
+               PJS_File?,
+               PJS_ConvertDate?,
+               PJS_CreateDate?,
+               Comments?,
+               Project*)>
+
+<!ATTLIST Workspace 
+      CurrentVersion CDATA   #REQUIRED> 
+
+<!ELEMENT CreateVersion     (#PCDATA)>
+
+
+<!-- Conversion data only: only included for files converted from the old .pjs database -->
+<!ELEMENT PJS_File (#PCDATA)>
+<!ELEMENT PJS_ConvertDate (#PCDATA)>
+<!ELEMENT PJS_CreateDate (#PCDATA)>
+
+<!ELEMENT Project ( Identifier,
+               Designer?,
+               DealerID?,
+               SalesOrder?,
+               PurchaseOrder?,
+               Comments?,
+               System*)>
+
+<!ELEMENT Designer (#PCDATA)>
+<!ELEMENT DealerID (#PCDATA)>
+<!ELEMENT SalesOrder (#PCDATA)>
+<!ELEMENT PurchaseOrder (#PCDATA)>
+
+
+<!ELEMENT System  (  Identifier,
+                 SysID,
+                 TransTCPIP?,
+                 TransSerial?,
+                 TransTCPIPEx?,
+                 TransSerialEx?,
+                 TransUSBEx?,
+                 TransVNMEx?,
+                 VirtualNetLinxMasterFlag?,
+                 VNMSystemID?,
+                 VNMIPAddress?,
+                 VNMMaskAddress?,
+                 UserName?,
+                 Password?,
+                 Comments?,
+                 File*)>
+
+<!ATTLIST System
+      IsActive   (true | false)   "false"
+      Platform   (Axcess | Netlinx)   "Axcess"
+      Transport   (Serial | Modem | TCPIP) "Serial"
+      TransportEx   (Serial | USB | TCPIP | VNM) "Serial">
+
+<!ELEMENT SysID (#PCDATA)>
+<!ELEMENT TransSerial (#PCDATA)>
+<!ELEMENT TransTCPIP (#PCDATA)>
+<!ELEMENT TransTCPIPEx (#PCDATA)>
+<!ELEMENT TransSerialEx (#PCDATA)>
+<!ELEMENT TransUSBEx (#PCDATA)>
+<!ELEMENT TransVNMEx (#PCDATA)>
+<!ELEMENT VNMSystemID (#PCDATA)>
+<!ELEMENT VNMIPAddress (#PCDATA)>
+<!ELEMENT VNMMaskAddress (#PCDATA)>
+<!ELEMENT VirtualNetLinxMasterFlag (#PCDATA)>
+<!ELEMENT UserName (#PCDATA)>
+<!ELEMENT Password (#PCDATA)>
+
+
+<!ELEMENT File ( Identifier,
+               FilePathName,
+               Comments?,
+               MasterDirectory?,
+               DeviceMap*,
+               IRDB*)>
+
+<!ATTLIST File 
+       Type (Source | MasterSrc | Include | Module | AXB | IR | TPD | TP4 | TP5 | KPD | TKO | AMX_IR_DB | IRN_DB | Other | DUET | TOK | TKN | KPB | XDD ) "Other"
+       CompileType (Axcess | Netlinx | None) "None"> 
+
+<!ELEMENT FilePathName	(#PCDATA)>
+                            
+<!ELEMENT DeviceMap (DevName)>
+       <!ATTLIST DeviceMap DevAddr CDATA #REQUIRED>
+
+       <!ELEMENT DevName (#PCDATA)>
+
+<!ELEMENT IRDB    (Property,
+                 DOSName,
+                 UserDBPathName,
+                 Notes)>
+       <!ATTLIST IRDB DBKey CDATA #REQUIRED>
+
+       <!ELEMENT Property (#PCDATA)>
+       <!ELEMENT DOSName (#PCDATA)>
+       <!ELEMENT UserDBPathName (#PCDATA)>
+       <!ELEMENT Notes (#PCDATA)>
+]>
+
+<Workspace CurrentVersion="4.0"><Identifier>SalemCollege_StudentCenter_105953-AW</Identifier>
+<CreateVersion>3.3</CreateVersion>
+<PJS_File></PJS_File>
+<PJS_ConvertDate></PJS_ConvertDate>
+<PJS_CreateDate></PJS_CreateDate>
+<Comments></Comments>
+<Project><Identifier>SalemCollege_StudentCenter_105953-AW</Identifier>
+<Designer></Designer>
+<DealerID></DealerID>
+<SalesOrder></SalesOrder>
+<PurchaseOrder></PurchaseOrder>
+<Comments></Comments>
+<System IsActive="true" Platform="Netlinx" Transport="TCPIP" TransportEx="TCPIP"><Identifier>Auditorium</Identifier>
+<SysID>0</SysID>
+<TransTCPIP>192.168.1.103:1319:1:Salem College Student Center Auditorium::</TransTCPIP>
+<TransSerial>COM3,38400,8,None,1,None</TransSerial>
+<TransTCPIPEx>192.168.1.103|1319|1|Salem College Student Center Auditorium||</TransTCPIPEx>
+<TransSerialEx>COM3|38400|8|None|1|None||</TransSerialEx>
+<TransUSBEx>|||||</TransUSBEx>
+<TransVNMEx>10.0.0.1|1</TransVNMEx>
+<VirtualNetLinxMasterFlag>false</VirtualNetLinxMasterFlag>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+<File CompileType="None" Type="Include"><Identifier>_Auditorium_Config</Identifier>
+<FilePathName>_Auditorium_Config.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>_DSP_Biamp</Identifier>
+<FilePathName>Includes\Auditorium\_DSP_Biamp.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>_DVDControl</Identifier>
+<FilePathName>Includes\Auditorium\_DVDControl.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>_GenericSystemFunctions</Identifier>
+<FilePathName>Includes\Auditorium\_GenericSystemFunctions.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>_ProjectorControl</Identifier>
+<FilePathName>Includes\Auditorium\_ProjectorControl.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>_RoutingMacros</Identifier>
+<FilePathName>Includes\Auditorium\_RoutingMacros.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>_Switcher</Identifier>
+<FilePathName>Includes\Auditorium\_Switcher.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="IR"><Identifier>SONY0592</Identifier>
+<FilePathName>IR\SONY0592.IRL</FilePathName>
+<Comments></Comments>
+<DeviceMap DevAddr="dvDVD"><DevName>dvDVD</DevName>
+</DeviceMap>
+</File>
+<File CompileType="None" Type="TKO"><Identifier>_AutoShutdown_Module_v2</Identifier>
+<FilePathName>Modules\_AutoShutdown_Module_v2.tko</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="TKO"><Identifier>_IR_Module</Identifier>
+<FilePathName>Modules\_IR_Module.tko</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="DUET"><Identifier>NEC_NPPA600X_Comm_dr1_0_0</Identifier>
+<FilePathName>Modules\NEC_NPPA600X_Comm_dr1_0_0.jar</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="TP4"><Identifier>SalemCollege_StudentCenter_105953-AW_Auditorium_Operator</Identifier>
+<FilePathName>Panels\SalemCollege_StudentCenter_105953-AW_Auditorium_Operator.TP4</FilePathName>
+<Comments></Comments>
+<DeviceMap DevAddr="dvTP_MAIN_201"><DevName>dvTP_MAIN_201</DevName>
+</DeviceMap>
+</File>
+<File CompileType="None" Type="TP4"><Identifier>SalemCollege_StudentCenter_Auditorium_105953-AW</Identifier>
+<FilePathName>Panels\SalemCollege_StudentCenter_Auditorium_105953-AW.TP4</FilePathName>
+<Comments></Comments>
+<DeviceMap DevAddr="dvTP_MAIN_101"><DevName>dvTP_MAIN_101</DevName>
+</DeviceMap>
+</File>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>SalemCollege_StudentCenter_105953-AW_Auditorium_Main</Identifier>
+<FilePathName>SalemCollege_StudentCenter_105953-AW_Auditorium_Main.axs</FilePathName>
+<Comments></Comments>
+</File>
+</System>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP" TransportEx="TCPIP"><Identifier>Meeting Rooms</Identifier>
+<SysID>0</SysID>
+<TransTCPIP>192.168.1.60:1319:1:Salem College Student Center - Meeting Room::</TransTCPIP>
+<TransSerial>COM3,38400,8,None,1,None</TransSerial>
+<TransTCPIPEx>192.168.1.60|1319|1|Salem College Student Center - Meeting Room||</TransTCPIPEx>
+<TransSerialEx>COM3|38400|8|None|1|None||</TransSerialEx>
+<TransUSBEx>|||||</TransUSBEx>
+<TransVNMEx>10.0.0.1|1</TransVNMEx>
+<VirtualNetLinxMasterFlag>false</VirtualNetLinxMasterFlag>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+<File CompileType="None" Type="Include"><Identifier>_MeetingRooms_Config</Identifier>
+<FilePathName>_MeetingRooms_Config.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>_DisplayControl</Identifier>
+<FilePathName>Includes\MeetingRooms\_DisplayControl.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>_DSP_Biamp</Identifier>
+<FilePathName>Includes\MeetingRooms\_DSP_Biamp.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>_DVDControl</Identifier>
+<FilePathName>Includes\MeetingRooms\_DVDControl.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>_GenericSystemFunctions</Identifier>
+<FilePathName>Includes\MeetingRooms\_GenericSystemFunctions.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>_OperatorPanel</Identifier>
+<FilePathName>Includes\MeetingRooms\_OperatorPanel.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>_ProjectorControl</Identifier>
+<FilePathName>Includes\MeetingRooms\_ProjectorControl.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>_RoutingMacros</Identifier>
+<FilePathName>Includes\MeetingRooms\_RoutingMacros.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>_Switcher</Identifier>
+<FilePathName>Includes\MeetingRooms\_Switcher.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="IR"><Identifier>SONY0592</Identifier>
+<FilePathName>IR\SONY0592.IRL</FilePathName>
+<Comments></Comments>
+<DeviceMap DevAddr="dvDVD_A"><DevName>dvDVD_A</DevName>
+</DeviceMap>
+<DeviceMap DevAddr="dvDVD_B"><DevName>dvDVD_B</DevName>
+</DeviceMap>
+<DeviceMap DevAddr="dvDVD_C"><DevName>dvDVD_C</DevName>
+</DeviceMap>
+</File>
+<File CompileType="None" Type="TKO"><Identifier>_AutoShutdown_Module_v2</Identifier>
+<FilePathName>Modules\_AutoShutdown_Module_v2.tko</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="TKO"><Identifier>_IR_Module</Identifier>
+<FilePathName>Modules\_IR_Module.tko</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="DUET"><Identifier>NEC_NPPA600X_Comm_dr1_0_0</Identifier>
+<FilePathName>Modules\NEC_NPPA600X_Comm_dr1_0_0.jar</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="DUET"><Identifier>NEC_P402_Comm_dr1_0_0</Identifier>
+<FilePathName>Modules\NEC_P402_Comm_dr1_0_0.jar</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="TP4"><Identifier>SalemCollege_StudentCenter_MeetingRooms_105953-AW</Identifier>
+<FilePathName>Panels\SalemCollege_StudentCenter_MeetingRooms_105953-AW.TP4</FilePathName>
+<Comments></Comments>
+<DeviceMap DevAddr="dvTP_MAIN_101"><DevName>dvTP_MAIN_101</DevName>
+</DeviceMap>
+<DeviceMap DevAddr="dvTP_Main_201"><DevName>dvTP_Main_201</DevName>
+</DeviceMap>
+<DeviceMap DevAddr="dvTP_Main_301"><DevName>dvTP_Main_301</DevName>
+</DeviceMap>
+</File>
+<File CompileType="None" Type="TP4"><Identifier>SalemCollege_StudentCenter_MeetingRooms_OpPanel_105953-AW</Identifier>
+<FilePathName>Panels\SalemCollege_StudentCenter_MeetingRooms_OpPanel_105953-AW.TP4</FilePathName>
+<Comments></Comments>
+<DeviceMap DevAddr="dvTP_Op_Main_401"><DevName>dvTP_Op_Main_401</DevName>
+</DeviceMap>
+</File>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>SalemCollege_StudentCenter_105953-AW_MtgRooms_Main</Identifier>
+<FilePathName>SalemCollege_StudentCenter_105953-AW_MtgRooms_Main.axs</FilePathName>
+<Comments></Comments>
+</File>
+</System>
+</Project>
+</Workspace>
