@@ -2,7 +2,7 @@ PROGRAM_NAME='_GenericSystemFunctions'
 (***********************************************************)
 (*  FILE CREATED ON: 07/08/2013  AT: 11:22:10              *)
 (***********************************************************)
-(*  FILE_LAST_MODIFIED_ON: 09/02/2014  AT: 08:18:59        *)
+(*  FILE_LAST_MODIFIED_ON: 03/23/2015  AT: 14:09:55        *)
 (***********************************************************)
 
 DEFINE_CONSTANT
@@ -23,6 +23,12 @@ CHAR cStatusPopupNames[4][25] =
 }
 
 
+(***********************************************************)
+(*               VARIABLE DEFINITIONS GO BELOW             *)
+(***********************************************************)
+DEFINE_VARIABLE
+
+VOLATILE INTEGER blnSysBusy[3]  // Added this var to make sure power sequencer does not kick off when rooms are starting/shutting down
 
 
 (***********************************************************)
@@ -449,9 +455,11 @@ DEFINE_FUNCTION fnSysPow(INTEGER nWhichRoom, INTEGER blnPowerAction)
 		    CASE ROOM_A: 
 		    {
 			fnMonitor(1,'ON');
+			blnSysBusy[ROOM_A] = TRUE;
 			WAIT 200 
 			{
 			    blnSysPow[ROOM_A] = TRUE;
+			    blnSysBusy[ROOM_A] = FALSE;
 			    SEND_COMMAND dvaTP_MAIN_01[ROOM_A], "'PPOF-Wait'";
 			    SEND_COMMAND dvaTP_MAIN_01[ROOM_A], "'PAGE-Main'";
 			}
@@ -459,9 +467,11 @@ DEFINE_FUNCTION fnSysPow(INTEGER nWhichRoom, INTEGER blnPowerAction)
 		    CASE ROOM_B: 
 		    {
 			fnProjector(ROOM_B,'ON');
+			blnSysBusy[ROOM_B] = TRUE;
 			WAIT 600 
 			{
 			    blnSysPow[ROOM_B] = TRUE;
+			    blnSysBusy[ROOM_B] = FALSE;
 			    SEND_COMMAND dvaTP_MAIN_01[ROOM_B], "'PPOF-Wait'";
 			    SEND_COMMAND dvaTP_MAIN_01[ROOM_B], "'PAGE-Main'";
 			}
@@ -469,9 +479,11 @@ DEFINE_FUNCTION fnSysPow(INTEGER nWhichRoom, INTEGER blnPowerAction)
 		    CASE ROOM_C: 
 		    {
 			fnProjector(ROOM_C,'ON');
+			blnSysBusy[ROOM_C] = TRUE;
 			WAIT 600 
 			{
 			    blnSysPow[ROOM_C] = TRUE;
+			    blnSysBusy[ROOM_C] = FALSE;
 			    SEND_COMMAND dvaTP_MAIN_01[ROOM_C], "'PPOF-Wait'";
 			    SEND_COMMAND dvaTP_MAIN_01[ROOM_C], "'PAGE-Main'";
 			}
@@ -499,12 +511,19 @@ DEFINE_FUNCTION fnSysPow(INTEGER nWhichRoom, INTEGER blnPowerAction)
 		fnMicMute(ROOM_B,FALSE);  
 		fnMicMute(ROOM_C,FALSE);  
 		
+		blnSysBusy[ROOM_A] = TRUE;
+		blnSysBusy[ROOM_B] = TRUE;
+		blnSysBusy[ROOM_C] = TRUE;
 		
 		WAIT 600
 		{
 		    blnSysPow[ROOM_A] = TRUE;
 		    blnSysPow[ROOM_B] = TRUE;
 		    blnSysPow[ROOM_C] = TRUE;
+		    blnSysBusy[ROOM_A] = FALSE;
+		    blnSysBusy[ROOM_B] = FALSE;
+		    blnSysBusy[ROOM_C] = FALSE;
+
 		    SEND_COMMAND dvaTP_MAIN_01, "'PPOF-Wait'";
 		    SEND_COMMAND dvaTP_MAIN_01, "'PAGE-Main'";
 		}            
@@ -528,10 +547,16 @@ DEFINE_FUNCTION fnSysPow(INTEGER nWhichRoom, INTEGER blnPowerAction)
 		    fnMicMute(ROOM_A,FALSE);  
 		    fnMicMute(ROOM_B,FALSE);  
 		    
+		    blnSysBusy[ROOM_A] = TRUE;
+		    blnSysBusy[ROOM_B] = TRUE;
+		    
 		    WAIT 600
 		    {
 			blnSysPow[ROOM_A] = TRUE;
 			blnSysPow[ROOM_B] = TRUE;
+			blnSysBusy[ROOM_A] = FALSE;
+			blnSysBusy[ROOM_B] = FALSE;
+
 			SEND_COMMAND dvaTP_MAIN_01[ROOM_A], "'PPOF-Wait'";
 			SEND_COMMAND dvaTP_MAIN_01[ROOM_B], "'PPOF-Wait'";
 			SEND_COMMAND dvaTP_MAIN_01[ROOM_A], "'PAGE-Main'";
@@ -550,10 +575,13 @@ DEFINE_FUNCTION fnSysPow(INTEGER nWhichRoom, INTEGER blnPowerAction)
 		    fnAudioMute(ROOM_C,FALSE);  
 		    fnAudioVolLvl(ROOM_C,DEFAULT_VOL_LVL);
 		    fnMicMute(ROOM_C,FALSE);  
+
+		    blnSysBusy[ROOM_C] = TRUE;
 		    
 		    WAIT 600 
 		    {
 			blnSysPow[ROOM_C] = TRUE;
+			blnSysBusy[ROOM_C] = FALSE;
 			SEND_COMMAND dvaTP_MAIN_01[ROOM_C], "'PPOF-Wait'";
 			SEND_COMMAND dvaTP_MAIN_01[ROOM_C], "'PAGE-Main'";
 		    }
@@ -578,10 +606,16 @@ DEFINE_FUNCTION fnSysPow(INTEGER nWhichRoom, INTEGER blnPowerAction)
 		    fnMicMute(ROOM_C,FALSE);  
 		    fnMicMute(ROOM_B,FALSE);  
 		    
+		    blnSysBusy[ROOM_B] = TRUE;
+		    blnSysBusy[ROOM_C] = TRUE;
+		    
 		    WAIT 600
 		    {
 			blnSysPow[ROOM_C] = TRUE;
 			blnSysPow[ROOM_B] = TRUE;
+			blnSysBusy[ROOM_B] = FALSE;
+			blnSysBusy[ROOM_C] = FALSE;
+
 			SEND_COMMAND dvaTP_MAIN_01[ROOM_C], "'PPOF-Wait'";
 			SEND_COMMAND dvaTP_MAIN_01[ROOM_B], "'PPOF-Wait'";
 			SEND_COMMAND dvaTP_MAIN_01[ROOM_C], "'PAGE-Main'";
@@ -600,9 +634,12 @@ DEFINE_FUNCTION fnSysPow(INTEGER nWhichRoom, INTEGER blnPowerAction)
 		    fnAudioVolLvl(ROOM_A,DEFAULT_VOL_LVL);
 		    fnMicMute(ROOM_A,FALSE);  
 		    
+		    blnSysBusy[ROOM_A] = TRUE;
+		    
 		    WAIT 200 
 		    {
 			blnSysPow[ROOM_A] = TRUE;
+			blnSysBusy[ROOM_A] = FALSE;
 			SEND_COMMAND dvaTP_MAIN_01[ROOM_A], "'PPOF-Wait'";
 			SEND_COMMAND dvaTP_MAIN_01[ROOM_A], "'PAGE-Main'";			
 		    }
@@ -628,10 +665,12 @@ DEFINE_FUNCTION fnSysPow(INTEGER nWhichRoom, INTEGER blnPowerAction)
 			fnMicMute(ROOM_A,TRUE);
 			fnMTX(0,ao_PGM[ROOM_A],'A');
 			
+			blnSysBusy[ROOM_A] = TRUE;
+			
 			WAIT 200
 			{
 			    blnSysPow[ROOM_A] = FALSE;
-			    
+			    blnSysBusy[ROOM_A] = FALSE;
 			    SEND_COMMAND dvaTP_MAIN_01[ROOM_A], "'@PPX'";
 			    SEND_COMMAND dvaTP_MAIN_01[ROOM_A], "'PAGE-Welcome'";
 			}            
@@ -645,9 +684,12 @@ DEFINE_FUNCTION fnSysPow(INTEGER nWhichRoom, INTEGER blnPowerAction)
 			fnMicMute(ROOM_B,TRUE);
 			fnMTX(0,ao_PGM[ROOM_B],'A');
 			
+			blnSysBusy[ROOM_B] = TRUE;
+			
 			WAIT 600
 			{
 			    blnSysPow[ROOM_B] = FALSE;
+			    blnSysBusy[ROOM_B] = FALSE;
 			    
 			    SEND_COMMAND dvaTP_MAIN_01[ROOM_B], "'@PPX'";
 			    SEND_COMMAND dvaTP_MAIN_01[ROOM_B], "'PAGE-Welcome'";
@@ -662,9 +704,12 @@ DEFINE_FUNCTION fnSysPow(INTEGER nWhichRoom, INTEGER blnPowerAction)
 			fnMicMute(ROOM_C,TRUE);
 			fnMTX(0,ao_PGM[ROOM_C],'A');
 			
+			blnSysBusy[ROOM_C] = TRUE;
+			
 			WAIT 600
 			{
 			    blnSysPow[ROOM_C] = FALSE;
+			    blnSysBusy[ROOM_C] = FALSE;
 			    
 			    SEND_COMMAND dvaTP_MAIN_01[ROOM_C], "'@PPX'";
 			    SEND_COMMAND dvaTP_MAIN_01[ROOM_C], "'PAGE-Welcome'";
@@ -698,12 +743,20 @@ DEFINE_FUNCTION fnSysPow(INTEGER nWhichRoom, INTEGER blnPowerAction)
 		    fnMTX(0,ao_PGM[x],'A');  // clear audio
 		}
 		
+		blnSysBusy[ROOM_A] = TRUE;
+		blnSysBusy[ROOM_B] = TRUE;
+		blnSysBusy[ROOM_C] = TRUE;
+		
 		WAIT 600
 		{
 		    //PULSE[dvRelay,2];  // pwr seq OFF
 		    blnSysPow[ROOM_A] = FALSE;
 		    blnSysPow[ROOM_B] = FALSE;
 		    blnSysPow[ROOM_C] = FALSE;
+
+		    blnSysBusy[ROOM_A] = FALSE;
+		    blnSysBusy[ROOM_B] = FALSE;
+		    blnSysBusy[ROOM_C] = FALSE;
 		    
 		    SEND_COMMAND dvaTP_MAIN_01, "'@PPX'";
 		    SEND_COMMAND dvaTP_MAIN_01, "'PAGE-Welcome'";
@@ -740,10 +793,16 @@ DEFINE_FUNCTION fnSysPow(INTEGER nWhichRoom, INTEGER blnPowerAction)
 		    fnMTX(0,ao_PGM[ROOM_A],'A');  // clear audio
 		    fnMTX(0,ao_PGM[ROOM_B],'A');  // clear audio
 		    
+		    blnSysBusy[ROOM_A] = TRUE;
+		    blnSysBusy[ROOM_B] = TRUE;
+		    
 		    WAIT 600
 		    {
 			blnSysPow[ROOM_A] = FALSE;
 			blnSysPow[ROOM_B] = FALSE;
+
+			blnSysBusy[ROOM_A] = FALSE;
+			blnSysBusy[ROOM_B] = FALSE;
 			
 			SEND_COMMAND dvaTP_MAIN_01[ROOM_A], "'@PPX'";
 			SEND_COMMAND dvaTP_MAIN_01[ROOM_A], "'PAGE-Welcome'";
@@ -772,9 +831,12 @@ DEFINE_FUNCTION fnSysPow(INTEGER nWhichRoom, INTEGER blnPowerAction)
 		    fnMTX(0,4,'V');  // clear video
 		    fnMTX(0,ao_PGM[ROOM_C],'A');  // clear audio
 		    
+		    blnSysBusy[ROOM_C] = TRUE;
+		    
 		    WAIT 600
 		    {
 			blnSysPow[ROOM_C] = FALSE;
+			blnSysBusy[ROOM_C] = FALSE;
 			
 			SEND_COMMAND dvaTP_MAIN_01[ROOM_C], "'@PPX'";
 			SEND_COMMAND dvaTP_MAIN_01[ROOM_C], "'PAGE-Welcome'";
@@ -806,10 +868,16 @@ DEFINE_FUNCTION fnSysPow(INTEGER nWhichRoom, INTEGER blnPowerAction)
 		    fnMTX(0,ao_PGM[ROOM_C],'A');  // clear audio
 		    fnMTX(0,ao_PGM[ROOM_B],'A');  // clear audio
 		    
+		    blnSysBusy[ROOM_C] = TRUE;
+		    blnSysBusy[ROOM_B] = TRUE;
+		    
 		    WAIT 600
 		    {
 			blnSysPow[ROOM_C] = FALSE;
 			blnSysPow[ROOM_B] = FALSE;
+			
+			blnSysBusy[ROOM_C] = FALSE;
+			blnSysBusy[ROOM_B] = FALSE;
 			
 			SEND_COMMAND dvaTP_MAIN_01[ROOM_C], "'@PPX'";
 			SEND_COMMAND dvaTP_MAIN_01[ROOM_C], "'PAGE-Welcome'";
@@ -836,9 +904,12 @@ DEFINE_FUNCTION fnSysPow(INTEGER nWhichRoom, INTEGER blnPowerAction)
 		    fnMTX(0,1,'V');  // clear video
 		    fnMTX(0,ao_PGM[ROOM_A],'A');  // clear audio
 		    
+		    blnSysBusy[ROOM_A] = TRUE;
+		    
 		    WAIT 200
 		    {
 			blnSysPow[ROOM_A] = FALSE;
+			blnSysBusy[ROOM_A] = FALSE;
 			
 			SEND_COMMAND dvaTP_MAIN_01[ROOM_A], "'@PPX'";
 			SEND_COMMAND dvaTP_MAIN_01[ROOM_A], "'PAGE-Welcome'";
@@ -850,7 +921,9 @@ DEFINE_FUNCTION fnSysPow(INTEGER nWhichRoom, INTEGER blnPowerAction)
 
 	WAIT 1250 // time needs to be more than the potential power-on time of a second room that may be occurring while one room powers down 
 	{
-	    IF(!blnSysPow[ROOM_A] && !blnSysPow[ROOM_B] && !blnSysPow[ROOM_C]) ON[dvRelay,2];  // pwr seq OFF
+	    IF(!blnSysPow[ROOM_A] && !blnSysPow[ROOM_B] && !blnSysPow[ROOM_C] &&
+		!blnSysBusy[ROOM_A] && !blnSysBusy[ROOM_B] && !blnSysBusy[ROOM_C])  
+		    ON[dvRelay,2];  // pwr seq OFF
 	}
     }
 }
