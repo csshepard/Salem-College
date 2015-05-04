@@ -4,7 +4,6 @@
 <!-- Common Elements -->
 <!ELEMENT Identifier (#PCDATA)>
 <!ELEMENT Comments (#PCDATA)>
-<!ELEMENT MasterDirectory (#PCDATA)>
 <!ELEMENT CreationDate (#PCDATA)>
 
 <!-- Workspace Elements-->
@@ -43,16 +42,15 @@
 
 <!ELEMENT System  (  Identifier,
                  SysID,
-                 TransTCPIP?,
                  TransSerial?,
-                 TransTCPIPEx?,
-                 TransSerialEx?,
-                 TransUSBEx?,
-                 TransVNMEx?,
+                 TransModem?,
+                 TransTCPIP?,
                  VirtualNetLinxMasterFlag?,
+                 VNMRestoreIPSettings?,
                  VNMSystemID?,
                  VNMIPAddress?,
                  VNMMaskAddress?,
+                 IsAuthenticationEnabled?,
                  UserName?,
                  Password?,
                  Comments?,
@@ -61,20 +59,18 @@
 <!ATTLIST System
       IsActive   (true | false)   "false"
       Platform   (Axcess | Netlinx)   "Axcess"
-      Transport   (Serial | Modem | TCPIP) "Serial"
-      TransportEx   (Serial | USB | TCPIP | VNM) "Serial">
+      Transport   (Serial | Modem | TCPIP) "Serial">
 
 <!ELEMENT SysID (#PCDATA)>
 <!ELEMENT TransSerial (#PCDATA)>
+<!ELEMENT TransModem (#PCDATA)>
 <!ELEMENT TransTCPIP (#PCDATA)>
-<!ELEMENT TransTCPIPEx (#PCDATA)>
-<!ELEMENT TransSerialEx (#PCDATA)>
-<!ELEMENT TransUSBEx (#PCDATA)>
-<!ELEMENT TransVNMEx (#PCDATA)>
+<!ELEMENT VirtualNetLinxMasterFlag (#PCDATA)>
+<!ELEMENT VNMRestoreIPSettings (#PCDATA)>
 <!ELEMENT VNMSystemID (#PCDATA)>
 <!ELEMENT VNMIPAddress (#PCDATA)>
 <!ELEMENT VNMMaskAddress (#PCDATA)>
-<!ELEMENT VirtualNetLinxMasterFlag (#PCDATA)>
+<!ELEMENT IsAuthenticationEnabled (#PCDATA)>
 <!ELEMENT UserName (#PCDATA)>
 <!ELEMENT Password (#PCDATA)>
 
@@ -82,12 +78,11 @@
 <!ELEMENT File ( Identifier,
                FilePathName,
                Comments?,
-               MasterDirectory?,
                DeviceMap*,
                IRDB*)>
 
 <!ATTLIST File 
-       Type (Source | MasterSrc | Include | Module | AXB | IR | TPD | TP4 | TP5 | KPD | TKO | AMX_IR_DB | IRN_DB | Other | DUET | TOK | TKN | KPB | XDD ) "Other"
+       Type (Source | MasterSrc | Include | Module | AXB | IR | TPD | TP4 | TP5 | XDD | KPD | TKO | AMX_IR_DB | IRN_DB | Other | DUET | TOK | TKN | KPB ) "Other"
        CompileType (Axcess | Netlinx | None) "None"> 
 
 <!ELEMENT FilePathName	(#PCDATA)>
@@ -109,7 +104,7 @@
        <!ELEMENT Notes (#PCDATA)>
 ]>
 
-<Workspace CurrentVersion="4.0"><Identifier>SalemCollege_StudentCenter_105953-AW</Identifier>
+<Workspace CurrentVersion="3.3"><Identifier>SalemCollege_StudentCenter_105953-AW</Identifier>
 <CreateVersion>3.3</CreateVersion>
 <PJS_File></PJS_File>
 <PJS_ConvertDate></PJS_ConvertDate>
@@ -121,18 +116,17 @@
 <SalesOrder></SalesOrder>
 <PurchaseOrder></PurchaseOrder>
 <Comments></Comments>
-<System IsActive="true" Platform="Netlinx" Transport="TCPIP" TransportEx="TCPIP"><Identifier>Auditorium</Identifier>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>Auditorium</Identifier>
 <SysID>0</SysID>
-<TransTCPIP>192.168.1.103:1319:1:Salem College Student Center Auditorium::</TransTCPIP>
 <TransSerial>COM3,38400,8,None,1,None</TransSerial>
-<TransTCPIPEx>192.168.1.103|1319|1|Salem College Student Center Auditorium||</TransTCPIPEx>
-<TransSerialEx>COM3|38400|8|None|1|None||</TransSerialEx>
-<TransUSBEx>|||||</TransUSBEx>
-<TransVNMEx>10.0.0.1|1</TransVNMEx>
-<VirtualNetLinxMasterFlag>false</VirtualNetLinxMasterFlag>
+<TransModem></TransModem>
+<TransTCPIP>192.168.1.103:1319:1:Salem College Student Center Auditorium::</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings></VNMRestoreIPSettings>
 <VNMSystemID>1</VNMSystemID>
 <VNMIPAddress>10.0.0.1</VNMIPAddress>
 <VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
 <UserName></UserName>
 <Password></Password>
 <Comments></Comments>
@@ -199,18 +193,17 @@
 <Comments></Comments>
 </File>
 </System>
-<System IsActive="false" Platform="Netlinx" Transport="TCPIP" TransportEx="TCPIP"><Identifier>Meeting Rooms</Identifier>
+<System IsActive="true" Platform="Netlinx" Transport="TCPIP"><Identifier>Meeting Rooms</Identifier>
 <SysID>0</SysID>
-<TransTCPIP>192.168.1.60:1319:1:Salem College Student Center - Meeting Room::</TransTCPIP>
 <TransSerial>COM3,38400,8,None,1,None</TransSerial>
-<TransTCPIPEx>192.168.1.60|1319|1|Salem College Student Center - Meeting Room||</TransTCPIPEx>
-<TransSerialEx>COM3|38400|8|None|1|None||</TransSerialEx>
-<TransUSBEx>|||||</TransUSBEx>
-<TransVNMEx>10.0.0.1|1</TransVNMEx>
-<VirtualNetLinxMasterFlag>false</VirtualNetLinxMasterFlag>
+<TransModem></TransModem>
+<TransTCPIP>192.168.1.60:1319:1:Salem College Student Center - Meeting Room::</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings></VNMRestoreIPSettings>
 <VNMSystemID>1</VNMSystemID>
 <VNMIPAddress>10.0.0.1</VNMIPAddress>
 <VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
 <UserName></UserName>
 <Password></Password>
 <Comments></Comments>
