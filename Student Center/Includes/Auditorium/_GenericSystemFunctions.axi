@@ -2,7 +2,7 @@ PROGRAM_NAME='_GenericSystemFunctions'
 (***********************************************************)
 (*  FILE CREATED ON: 07/08/2013  AT: 11:22:10              *)
 (***********************************************************)
-(*  FILE_LAST_MODIFIED_ON: 07/03/2014  AT: 10:22:54        *)
+(*  FILE_LAST_MODIFIED_ON: 10/16/2015  AT: 16:49:26        *)
 (***********************************************************)
 
 DEFINE_CONSTANT
@@ -37,7 +37,8 @@ DEFINE_FUNCTION fnSysPow(INTEGER blnPowerAction)
 
 	fnMicMute(FALSE);
 	fnAudioMute(FALSE);
-	fnAudioVolLvl(-200);  // SSP
+	fnAudioVolLvl(50);  // SSP
+	fnSwitcherVolLvl(-100) // IN-1608
 	fnTelcoVolLvl(800);  // Biamp
 	fnMicVolLvl(1000);  // Biamp
 	fnLobbyMute(TRUE);

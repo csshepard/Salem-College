@@ -2,7 +2,7 @@ PROGRAM_NAME='_Switcher'
 (***********************************************************)
 (*  FILE CREATED ON: 06/11/2013  AT: 09:26:03              *)
 (***********************************************************)
-(*  FILE_LAST_MODIFIED_ON: 07/03/2014  AT: 10:54:09        *)
+(*  FILE_LAST_MODIFIED_ON: 10/13/2015  AT: 11:15:10        *)
 (***********************************************************)
 
 
@@ -193,13 +193,7 @@ BUTTON_EVENT[dvaTP_Switcher_03,nAudOutputBtns]
 	    {
 		nRoutingPair[1] = BIC;
 		SEND_COMMAND dvaTP_Switcher_03, "'PPOF-_dev_Template'";  // call an unused page in the same group; to close all popups in the current group
-		SEND_COMMAND dvaTP_Switcher_03, "'@PPN-', sSwitcherInfo[2].Inputs[nRoutingPair[1] - 2100].ControlPage, ';Main'";
-		
-		IF(nRoutingPair[1] == 2101)  // this is for home page macros, assign a laptop input to be the one that comes up when macro 1 triggered
-		{
-		    sRoutingMacros[1].VideoRoutes[vo_1]	= nRoutingPair[1];	// can use the source (vi) and dest (vo) constants here
-		    sRoutingMacros[1].AudioSource	= nRoutingPair[1];
-		}
+		SEND_COMMAND dvaTP_Switcher_03, "'@PPN-', sSwitcherInfo[2].Inputs[nRoutingPair[1] - 2100].ControlPage, ';Main'";	
 
 		nRoutingPair[2] = vo_Proj;
 		IF(nRoutingPair[1] && nRoutingPair[2])

@@ -1,6 +1,6 @@
 PROGRAM_NAME='_DSP_Biamp'
 (***********************************************************)
-(*  FILE_LAST_MODIFIED_ON: 09/05/2014  AT: 14:31:01        *)
+(*  FILE_LAST_MODIFIED_ON: 10/16/2015  AT: 16:49:26        *)
 (***********************************************************)
 
 
@@ -17,9 +17,13 @@ SLONG VOL_MIN		= 560
 SLONG VOL_MAX			= 1020
 INTEGER VOL_INCREMENT		= 20
 
-SLONG SSP_VOL_MIN	= -400
-SLONG SSP_VOL_MAX	= 0
-INTEGER SSP_VOL_INCREMENT = 20
+//SLONG SSP_VOL_MIN	= -400  //Original Values
+//SLONG SSP_VOL_MAX	= 0
+//INTEGER SSP_VOL_INCREMENT = 20
+
+SLONG SSP_VOL_MIN	= 0  //Updated Values
+SLONG SSP_VOL_MAX	= 100
+INTEGER SSP_VOL_INCREMENT = 5
 
 SLONG MIC_VOL_MIN	= 940
 SLONG MIC_VOL_MAX	= 1060
@@ -70,7 +74,7 @@ VOLATILE INTEGER nRoomAudioMute  // boolean - room audio mute
 VOLATILE INTEGER nMicMute	// boolean - mic mute
 VOLATILE CHAR cDialerString[50]
 VOLATILE INTEGER nPhoneOffHook
-VOLATILE SLONG nRoomVolLvl	= -200;
+VOLATILE SLONG nRoomVolLvl	= 50;
 VOLATILE SLONG nCalcVol
 VOLATILE INTEGER nJudgePriority
 VOLATILE SLONG nMicLvl	= 1000;  // 0
@@ -84,12 +88,17 @@ PERSISTENT CHAR cPhonePresets[3][25]
 DEFINE_FUNCTION fnAudioVolLvl(SLONG nLvl)
 {
     //SEND_STRING dvDSP, "'SETLD 1 FDRLVL ',ID_CEILING_SPEAKERS,' 1 ',ITOA(nLvl),$0A"
-    //SEND_STRING dvSSP, "ITOA(nLvl),'V'";
-    SEND_STRING dvSWITCHER, "$1B, 'd1*', ITOA(nLvl), 'grpm', $0D";
+    SEND_STRING dvSSP, "ITOA(nLvl),'V'";
+    //SEND_STRING dvSWITCHER, "$1B, 'd1*', ITOA(nLvl), 'grpm', $0D";
     
     nRoomVolLvl = nLvl;
     nCalcVol = Scale_Range(nRoomVolLvl,SSP_VOL_MIN,SSP_VOL_MAX,0,100);	
     SEND_COMMAND dvaTP_Audio_13, "'^TXT-500,0,', ITOA(nCalcVol)";    
+}
+
+DEFINE_FUNCTION fnSwitcherVolLvl(SLONG nLvl)
+{
+    SEND_STRING dvSWITCHER, "$1B, 'd1*', ITOA(nLvl), 'grpm', $0D";
 }
 
 DEFINE_FUNCTION fnMicVolLvl(SLONG nLvl)

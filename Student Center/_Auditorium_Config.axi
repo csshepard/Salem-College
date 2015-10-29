@@ -2,7 +2,7 @@ PROGRAM_NAME='_Roomxxxx_Config'
 (***********************************************************)
 (*  FILE CREATED ON: 05/22/2013  AT: 14:41:37              *)
 (***********************************************************)
-(*  FILE_LAST_MODIFIED_ON: 07/03/2014  AT: 10:09:16        *)
+(*  FILE_LAST_MODIFIED_ON: 10/14/2015  AT: 05:23:20        *)
 (***********************************************************)
 
 
@@ -123,7 +123,7 @@ NAV_SELECT	= 49
 	#DEFINE CONFIG_SWITCHER
     #END_IF
 
-    INTEGER CONFIG_MACROS_NUMBER_OF_MACROS	= 2;
+    INTEGER CONFIG_MACROS_NUMBER_OF_MACROS	= 3;
 #END_IF
 
 
@@ -311,6 +311,7 @@ NAV_SELECT	= 49
     INTEGER SRC_ICON_SLOT_FEED		= 0;
     INTEGER SRC_ICON_SLOT_FLOORBOX	= 31;
     INTEGER SRC_ICON_SLOT_WALLPLATE	= 32;
+    INTEGER SRC_ICON_SLOT_FILM		= 35;
 
     INTEGER DST_ICON_SLOT_PROJ		= 29;
     INTEGER DST_ICON_SLOT_DISP		= 21;
@@ -1452,6 +1453,11 @@ DEFINE_START
 //    sSwitcherInfo[1].Inputs[6].IconSlot				= SRC_ICON_SLOT_WALLPLATE;
 //    sSwitcherInfo[1].Inputs[6].ControlPage			= 'Laptop';
 //    sSwitcherInfo[1].Inputs[6].HasAudio				= 6; 
+
+    sSwitcherInfo[1].Inputs[5].SourceName			= 'Booth HDMI';
+    sSwitcherInfo[1].Inputs[5].IconSlot				= SRC_ICON_SLOT_LAPTOP;
+    sSwitcherInfo[1].Inputs[5].ControlPage			= 'Laptop';
+    sSwitcherInfo[1].Inputs[5].HasAudio				= 5; 
     
     sSwitcherInfo[1].Inputs[7].SourceName			= 'Floorbox 1';
     sSwitcherInfo[1].Inputs[7].IconSlot				= SRC_ICON_SLOT_FLOORBOX;
@@ -1465,9 +1471,9 @@ DEFINE_START
 
 
     // Secondary Switcher Inputs   (contact closure - refer to dcSwt2)
-    sSwitcherInfo[2].Inputs[1].SourceName			= 'Booth HDMI';
-    sSwitcherInfo[2].Inputs[1].IconSlot				= SRC_ICON_SLOT_LAPTOP;
-    sSwitcherInfo[2].Inputs[1].ControlPage			= 'Laptop';
+    sSwitcherInfo[2].Inputs[1].SourceName			= 'Cinelink';
+    sSwitcherInfo[2].Inputs[1].IconSlot				= SRC_ICON_SLOT_FILM;
+    sSwitcherInfo[2].Inputs[1].ControlPage			= 'Cinelink';
     sSwitcherInfo[2].Inputs[1].HasAudio				= 3; 
     
     sSwitcherInfo[2].Inputs[2].SourceName			= 'DVD';
@@ -1511,6 +1517,13 @@ DEFINE_START
 	sRoutingMacros[2].VideoRoutes[vo_1]	= 2102;	// can use the source (vi) and dest (vo) constants here
 	sRoutingMacros[2].AudioSource		= 2102;
 	sRoutingMacros[2].ControlPage		= 'DVD';
+	
+	sRoutingMacros[3].MacroName		= 'Cinelink';
+	sRoutingMacros[3].MacroDesc		= 'The Cinelink player will be routed to the projector and audio will be heard in the room.';
+	sRoutingMacros[3].IconSlot		= 0;
+	sRoutingMacros[3].VideoRoutes[vo_1]	= 2101;	// can use the source (vi) and dest (vo) constants here
+	sRoutingMacros[3].AudioSource		= 2101;
+	sRoutingMacros[3].ControlPage		= 'Cinelink';	
 
 
 #END_IF
