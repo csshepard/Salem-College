@@ -38,7 +38,7 @@ DEFINE_FUNCTION fnSysPow(INTEGER blnPowerAction)
 	fnMicMute(FALSE);
 	fnAudioMute(FALSE);
 	fnAudioVolLvl(50);  // SSP
-	fnSwitcherVolLvl(-100) // IN-1608
+	fnSwitcherVolLvl(-50) // IN-1608
 	fnTelcoVolLvl(800);  // Biamp
 	fnMicVolLvl(1000);  // Biamp
 	fnLobbyMute(TRUE);
