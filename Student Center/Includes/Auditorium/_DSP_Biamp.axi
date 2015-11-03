@@ -17,13 +17,15 @@ SLONG VOL_MIN		= 560
 SLONG VOL_MAX			= 1020
 INTEGER VOL_INCREMENT		= 20
 
-//SLONG SSP_VOL_MIN	= -400  //Original Values
-//SLONG SSP_VOL_MAX	= 0
-//INTEGER SSP_VOL_INCREMENT = 20
-
-SLONG SSP_VOL_MIN	= 0  //Updated Values
+SLONG SSP_VOL_MIN	= 0
 SLONG SSP_VOL_MAX	= 100
-INTEGER SSP_VOL_INCREMENT = 5
+
+SLONG SWITCH_VOL_MIN	= -1000
+SLONG SWITCH_VOL_MAX	= 0
+
+SLONG PROG_VOL_MIN	= 0  //Updated Values
+SLONG PROG_VOL_MAX	= 100
+INTEGER PROG_VOL_INCREMENT = 5
 
 SLONG MIC_VOL_MIN	= 940
 SLONG MIC_VOL_MAX	= 1060
@@ -87,12 +89,20 @@ PERSISTENT CHAR cPhonePresets[3][25]
 
 DEFINE_FUNCTION fnAudioVolLvl(SLONG nLvl)
 {
+    STACK_VAR
+    SLONG logLvl
+    SLONG expLvl
+    
     //SEND_STRING dvDSP, "'SETLD 1 FDRLVL ',ID_CEILING_SPEAKERS,' 1 ',ITOA(nLvl),$0A"
-    SEND_STRING dvSSP, "ITOA(nLvl),'V'";
+    expLvl = fnLin2Exp(nLvl, PROG_VOL_MIN, PROG_VOL_MAX, SSP_VOL_MIN, SSP_VOL_MAX);
+    logLvl = fnLin2Log(nLvl, PROG_VOL_MIN, PROG_VOL_MAX, SSP_VOL_MIN, SSP_VOL_MAX);
+    SEND_STRING dvSSP, "ITOA(logLvl),'V'";
+    //expLvl = fnLin2Exp(nLvl, PROG_VOL_MIN, PROG_VOL_MAX, SWITCH_VOL_MIN, SWITCH_VOL_MAX);
+    //logLvl = fnLin2Log(nLvl, PROG_VOL_MIN, PROG_VOL_MAX, SWITCH_VOL_MIN, SWITCH_VOL_MAX);
     //SEND_STRING dvSWITCHER, "$1B, 'd1*', ITOA(nLvl), 'grpm', $0D";
     
     nRoomVolLvl = nLvl;
-    nCalcVol = Scale_Range(nRoomVolLvl,SSP_VOL_MIN,SSP_VOL_MAX,0,100);	
+    nCalcVol = Scale_Range(nRoomVolLvl,PROG_VOL_MIN,PROG_VOL_MAX,0,100);	
     SEND_COMMAND dvaTP_Audio_13, "'^TXT-500,0,', ITOA(nCalcVol)";    
 }
 
@@ -145,6 +155,38 @@ define_function slong Scale_Range(slong Num_In, slong Min_In, slong Max_In, slon
    Num_Out++    // round up
  }
  return type_cast(Num_Out)
+}
+
+DEFINE_FUNCTION SLONG fnLin2Log(SLONG Lin_In, SLONG Min_Lin, SLONG Max_Lin, SLONG Min_Log, SLONG Max_Log)
+{
+    STACK_VAR
+    SLONG Val_In
+    SLONG P
+    FLOAT K
+    FLOAT Log_Out
+    
+    Val_In = Lin_In;
+    IF(Val_In < Min_Lin) Val_In = Min_Lin;
+    P = 1 - Min_Lin;
+    K = (Max_Log - Min_Log) / LOG_VALUE(P + Max_Lin);
+    Log_Out = K * LOG_VALUE(P + Val_In) + Min_Log;
+    RETURN TYPE_CAST(Log_Out);
+}
+
+DEFINE_FUNCTION SLONG fnLin2Exp(SLONG Lin_In, SLONG Min_Lin, SLONG Max_Lin, SLONG Min_Exp, SLONG Max_Exp)
+{
+    STACK_VAR
+    SLONG Val_In
+    SLONG P
+    FLOAT K
+    FLOAT Exp_Out
+    
+    Val_In = Lin_In;
+    IF(Val_In < Min_Lin) Val_In = Min_Lin;
+    P = 1 - Min_Exp;
+    K = (Max_Lin - Min_Lin) / LOG_VALUE(Max_Exp + P);
+    Exp_Out = EXP_VALUE((Val_In - Min_Lin)/K) - P;
+    RETURN TYPE_CAST(Exp_Out);
 }
 
 DEFINE_FUNCTION fnAudioMute(INTEGER nHow) // 0/FALSE = unmute; 1/TRUE = mute; 3 = toggle
@@ -264,13 +306,13 @@ BUTTON_EVENT[dvaTP_Audio_13,25]  // room vol -
     {
 	IF(BUTTON.INPUT.CHANNEL == 24)
 	{
-	    IF(nRoomVolLvl < SSP_VOL_MAX)
-		nRoomVolLvl = nRoomVolLvl + SSP_VOL_INCREMENT;
+	    IF(nRoomVolLvl < PROG_VOL_MAX)
+		nRoomVolLvl = nRoomVolLvl + PROG_VOL_INCREMENT;
 	}
 	ELSE
 	{
-	    IF(nRoomVolLvl > SSP_VOL_MIN)
-		nRoomVolLvl = nRoomVolLvl - SSP_VOL_INCREMENT;
+	    IF(nRoomVolLvl > PROG_VOL_MIN)
+		nRoomVolLvl = nRoomVolLvl - PROG_VOL_INCREMENT;
 	
 	}
 	
@@ -281,13 +323,13 @@ BUTTON_EVENT[dvaTP_Audio_13,25]  // room vol -
     {
 	IF(BUTTON.INPUT.CHANNEL == 24)
 	{
-	    IF(nRoomVolLvl < SSP_VOL_MAX)
-		nRoomVolLvl = nRoomVolLvl + SSP_VOL_INCREMENT;
+	    IF(nRoomVolLvl < PROG_VOL_MAX)
+		nRoomVolLvl = nRoomVolLvl + PROG_VOL_INCREMENT;
 	}
 	ELSE
 	{
-	    IF(nRoomVolLvl > SSP_VOL_MIN)
-		nRoomVolLvl = nRoomVolLvl - SSP_VOL_INCREMENT;
+	    IF(nRoomVolLvl > PROG_VOL_MIN)
+		nRoomVolLvl = nRoomVolLvl - PROG_VOL_INCREMENT;
 	
 	}
 	
